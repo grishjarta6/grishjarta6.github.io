@@ -3,500 +3,1116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Тест: Какой ты тип искателя?">
-    <title>Какой ты тип искателя?</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Telegram Web App SDK -->
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <title>🧠 Каталог тестов</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2d0b5f;
+            --secondary-color: #4a1e8a;
+            --accent-color: #8a2be2;
+            --text-color: #ffffff;
+            --card-bg: #3a1078;
+            --border-color: #5a2d9c;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--primary-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Шапка */
+        header {
+            background-color: var(--secondary-color);
+            padding: 20px 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+            color: #b19cd9;
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, #b19cd9, #e6e6fa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .logo p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        /* Каталог тестов */
+        .catalog {
+            margin-top: 30px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tests-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        @media (min-width: 768px) {
+            .tests-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .test-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+        }
+
+        .test-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        .test-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: #b19cd9;
+        }
+
+        .test-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #e6e6fa;
+        }
+
+        .test-card p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .test-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-top: 15px;
+        }
+
+        /* Страница теста */
+        .test-page {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .test-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .back-button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .test-title {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #e6e6fa;
+        }
+
+        .test-subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 25px;
+        }
+
+        /* Вопросы теста */
+        .question-block {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .question-number {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px 15px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .option:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .option.selected {
+            background-color: rgba(138, 43, 226, 0.2);
+            border-color: var(--accent-color);
+        }
+
+        .option input {
+            display: none;
+        }
+
+        .option label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .option-letter {
+            background-color: var(--accent-color);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        /* Кнопка отправки */
+        .submit-button {
+            background: linear-gradient(90deg, var(--accent-color), #9b4dff);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto;
+            width: 100%;
+            max-width: 300px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .submit-button:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 12px rgba(138, 43, 226, 0.4);
+        }
+
+        .submit-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Результаты теста */
+        .result-container {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 30px;
+            box-shadow: var(--shadow);
+            display: none;
+            border-top: 5px solid var(--accent-color);
+        }
+
+        .result-title {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            color: #e6e6fa;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .result-type {
+            font-size: 1.4rem;
+            color: #b19cd9;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .result-description {
+            margin-bottom: 20px;
+        }
+
+        .result-section {
+            margin-bottom: 20px;
+        }
+
+        .result-section h4 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #d4c4ff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .result-list {
+            padding-left: 20px;
+            margin-bottom: 10px;
+        }
+
+        .result-list li {
+            margin-bottom: 8px;
+        }
+
+        /* Футер */
+        footer {
+            background-color: var(--secondary-color);
+            padding: 20px 0;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-icons {
+            display: flex;
+            gap: 15px;
+            font-size: 1.2rem;
+        }
+
+        .footer-icons a {
+            color: #b19cd9;
+            transition: color 0.2s;
+        }
+
+        .footer-icons a:hover {
+            color: #e6e6fa;
+        }
+
+        /* Адаптация для ПК */
+        @media (min-width: 1024px) {
+            .container {
+                max-width: 900px;
+            }
+            
+            body {
+                background: linear-gradient(135deg, var(--primary-color) 0%, #1a0638 100%);
+            }
+            
+            .test-card {
+                padding: 25px;
+            }
+        }
+
+        /* Анимации */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .test-page.active, .result-container.active {
+            display: block;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .test-card {
+            animation: fadeIn 0.5s ease-out;
+        }
+    </style>
 </head>
 <body>
-    <div class="container" id="app">
-        <!-- Начальный экран -->
-        <div class="screen active" id="screen-start">
-            <div class="header">
-                <h1>Какой ты тип искателя?</h1>
-                <div class="subtitle">Узнай свой стиль познания мира и получи советы</div>
-            </div>
-            
-            <div class="intro">
-                <p>Привет! Этот тест не поставит тебе диагноз, а поможет посмотреть на себя с нового ракурса.</p>
-                <p>Отвечай быстро, по первому впечатлению. Выбирай тот вариант, который тебе ближе.</p>
-            </div>
-            
-            <button class="btn start-btn" onclick="startTest()">Начать тест</button>
-            
-            <div class="counter">
-                <span>8 вопросов</span> • <span>3 минуты</span>
-            </div>
-        </div>
-        
-        <!-- Экран вопроса -->
-        <div class="screen" id="screen-question">
-            <div class="progress-container">
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progress-fill"></div>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <div class="logo-icon">🧠</div>
+                <div>
+                    <h1>Каталог психологических тестов</h1>
+                    <p>Узнай больше о себе, своем стиле обучения и эмоциональном интеллекте</p>
                 </div>
-                <div class="progress-text" id="progress-text">Вопрос 1 из 8</div>
-            </div>
-            
-            <div class="question-container">
-                <h2 id="question-text"></h2>
-                <div class="options" id="options-container"></div>
-            </div>
-            
-            <button class="btn next-btn" id="next-btn" onclick="nextQuestion()" disabled>Далее</button>
-        </div>
-        
-        <!-- Экран результатов -->
-        <div class="screen" id="screen-results">
-            <div class="results-header">
-                <h1>Твой результат</h1>
-            </div>
-            
-            <div class="personality-card" id="result-card">
-                <!-- Заполняется JavaScript -->
-            </div>
-            
-            <div class="results-details">
-                <!-- Заполняется JavaScript -->
-            </div>
-            
-            <button class="btn restart-btn" onclick="restartTest()">Пройти еще раз</button>
-            
-            <div class="final-message">
-                Помни, что тип — это не приговор, а твой стартовый стиль. 
-                Самые крутые люди умеют сочетать в себе сильные стороны разных типов.
             </div>
         </div>
-    </div>
-    
+    </header>
+
+    <main class="container">
+        <!-- Каталог тестов -->
+        <section class="catalog active" id="catalog">
+            <h2 class="section-title"><i class="fas fa-list"></i> Доступные тесты</h2>
+            <div class="tests-grid">
+                <!-- Тест 1 -->
+                <div class="test-card" data-test="1">
+                    <div class="test-icon">🎓</div>
+                    <h3>Какой ты тип ученика?</h3>
+                    <p>Узнай свой стиль восприятия информации и получи советы, как учиться эффективнее.</p>
+                    <div class="test-meta">
+                        <span><i class="fas fa-question-circle"></i> 5 вопросов</span>
+                        <span><i class="fas fa-clock"></i> 3-5 минут</span>
+                    </div>
+                </div>
+
+                <!-- Тест 2 -->
+                <div class="test-card" data-test="2">
+                    <div class="test-icon">🔍</div>
+                    <h3>Какой ты тип искателя?</h3>
+                    <p>Узнай свой стиль познания мира и получи советы, как использовать свои сильные стороны.</p>
+                    <div class="test-meta">
+                        <span><i class="fas fa-question-circle"></i> 8 вопросов</span>
+                        <span><i class="fas fa-clock"></i> 5-7 минут</span>
+                    </div>
+                </div>
+
+                <!-- Тест 3 -->
+                <div class="test-card" data-test="3">
+                    <div class="test-icon">❤️</div>
+                    <h3>Тест на эмоциональный интеллект (EQ)</h3>
+                    <p>Оцени свой уровень самосознания, эмпатии и навыков управления отношениями.</p>
+                    <div class="test-meta">
+                        <span><i class="fas fa-question-circle"></i> 15 вопросов</span>
+                        <span><i class="fas fa-clock"></i> 7-10 минут</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Страницы тестов -->
+        <section class="test-page" id="test-page-1">
+            <div class="test-header">
+                <button class="back-button"><i class="fas fa-arrow-left"></i> Назад к каталогу</button>
+                <div class="test-meta">🎓 Тип ученика</div>
+            </div>
+            
+            <h2 class="test-title">Какой ты тип ученика?</h2>
+            <p class="test-subtitle">Узнай свой стиль восприятия информации и получи советы, как учиться эффективнее.</p>
+            
+            <!-- Вопросы теста 1 -->
+            <div class="questions-container">
+                <!-- Вопросы будут сгенерированы JavaScript -->
+            </div>
+            
+            <button class="submit-button" id="submit-test-1">Узнать результат 🎯</button>
+            
+            <!-- Результаты теста 1 -->
+            <div class="result-container" id="result-1">
+                <!-- Результат будет сгенерирован JavaScript -->
+            </div>
+        </section>
+
+        <section class="test-page" id="test-page-2">
+            <div class="test-header">
+                <button class="back-button"><i class="fas fa-arrow-left"></i> Назад к каталогу</button>
+                <div class="test-meta">🔍 Тип искателя</div>
+            </div>
+            
+            <h2 class="test-title">Какой ты тип искателя?</h2>
+            <p class="test-subtitle">Узнай свой стиль познания мира и получи советы, как использовать свои сильные стороны.</p>
+            
+            <!-- Вопросы теста 2 -->
+            <div class="questions-container">
+                <!-- Вопросы будут сгенерированы JavaScript -->
+            </div>
+            
+            <button class="submit-button" id="submit-test-2">Узнать результат 🎯</button>
+            
+            <!-- Результаты теста 2 -->
+            <div class="result-container" id="result-2">
+                <!-- Результат будет сгенерирован JavaScript -->
+            </div>
+        </section>
+
+        <section class="test-page" id="test-page-3">
+            <div class="test-header">
+                <button class="back-button"><i class="fas fa-arrow-left"></i> Назад к каталогу</button>
+                <div class="test-meta">❤️ Эмоциональный интеллект</div>
+            </div>
+            
+            <h2 class="test-title">Тест на эмоциональный интеллект (EQ)</h2>
+            <p class="test-subtitle">Оцените, насколько каждое из утверждений соответствует вашим типичным реакциям и чувствам.</p>
+            
+            <!-- Вопросы теста 3 -->
+            <div class="questions-container">
+                <!-- Вопросы будут сгенерированы JavaScript -->
+            </div>
+            
+            <button class="submit-button" id="submit-test-3">Узнать результат 🎯</button>
+            
+            <!-- Результаты теста 3 -->
+            <div class="result-container" id="result-3">
+                <!-- Результат будет сгенерирован JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-icons">
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fas fa-heart"></i></a>
+                <a href="#"><i class="fas fa-share-alt"></i></a>
+            </div>
+            <p>🧠 Каталог тестов | Создано для GitHub Pages</p>
+        </div>
+    </footer>
+
     <script>
-        // Все данные теста хранятся в одном файле
-        const testData = {
-            questions: [
-                {
-                    id: 1,
-                    text: "Твои друзья планируют поездку на выходные. Твоя роль обычно:",
-                    options: [
-                        { id: 'a', text: "Инициатор и организатор: я предлагаю идеи, составляю план, делегирую задачи." },
-                        { id: 'b', text: "Мотиватор и «душа компании»: я заряжаю всех энтузиазмом, сглаживаю конфликты, создаю настроение." },
-                        { id: 'c', text: "Исследователь: я ищу необычные места, читаю отзывы, предлагаю альтернативные маршруты." },
-                        { id: 'd', text: "Надежная опора: я помогаю с логистикой, помню про важные мелочи (аптечка, зарядки), обеспечиваю комфорт." }
-                    ]
-                },
-                {
-                    id: 2,
-                    text: "На сложном уроке ты скорее всего:",
-                    options: [
-                        { id: 'a', text: "Буду задавать вопросы о практическом применении темы и спорить, если что-то кажется нелогичным." },
-                        { id: 'b', text: "Попробую связать новую тему с чем-то из жизни или своим хобби, чтобы стало интереснее." },
-                        { id: 'c', text: "Уйду вглубь: буду искать дополнительную информацию в интернете, чтобы понять суть." },
-                        { id: 'd', text: "Старательно запишу алгоритм или правило, чтобы потом точно правильно выполнить задание." }
-                    ]
-                },
-                {
-                    id: 3,
-                    text: "Если ты столкнешься с несправедливостью по отношению к другому, ты:",
-                    options: [
-                        { id: 'a', text: "Разработаю план действий, привлеку нужных людей, буду добиваться системного решения." },
-                        { id: 'b', text: "Окажу эмоциональную поддержку, помогу человеку выговориться, покажу, что он не один." },
-                        { id: 'c', text: "Попробую глубоко разобраться в причинах ситуации и найти неочевидный выход." },
-                        { id: 'd', text: "Предложу конкретную практическую помощь здесь и сейчас (например, пойти вместе поговорить с обидчиком)." }
-                    ]
-                },
-                {
-                    id: 4,
-                    text: "Твой идеальный проект — это:",
-                    options: [
-                        { id: 'a', text: "Сложная задача с четким результатом, где можно применить стратегию и лидерство." },
-                        { id: 'b', text: "Творческий процесс в команде, где важен общий настрой и крутая атмосфера." },
-                        { id: 'c', text: "Что-то новое и неизведанное, где можно погрузиться в тему и сделать открытие." },
-                        { id: 'd', text: "Полезное дело с ясными инструкциями, где мой вклад будет конкретным и осязаемым." }
-                    ]
-                },
-                {
-                    id: 5,
-                    text: "Когда все вокруг спорят, ты обычно:",
-                    options: [
-                        { id: 'a', text: "Структурирую дискуссию: выделяю ключевые точки, ищу аргументы «за» и «против»." },
-                        { id: 'b', text: "Стараюсь найти общий язык, напомнить о том, что всех объединяет." },
-                        { id: 'c', text: "Смотрю на спор со стороны, анализирую скрытые мотивы и причины." },
-                        { id: 'd', text: "Предлагаю простое и честное решение, основанное на фактах или правилах." }
-                    ]
-                },
-                {
-                    id: 6,
-                    text: "Что тебя больше всего выбивает из колеи?",
-                    options: [
-                        { id: 'a', text: "Хаос, неопределенность и отсутствие четкого плана." },
-                        { id: 'b', text: "Конфликты, напряженная атмосфера и чувство, что тебя не понимают." },
-                        { id: 'c', text: "Рутина, скучные и повторяющиеся задачи, отсутствие интеллектуального вызова." },
-                        { id: 'd', text: "Непредвиденные изменения в последний момент и ощущение, что ты не справляешься." }
-                    ]
-                },
-                {
-                    id: 7,
-                    text: "Выбери фразу, которая тебе ближе:",
-                    options: [
-                        { id: 'a', text: "«Если что-то можно улучшить — почему бы не сделать это?»" },
-                        { id: 'b', text: "«Самое важное — это атмосфера и люди вокруг»." },
-                        { id: 'c', text: "«Интересно, а как это устроено изнутри?»" },
-                        { id: 'd', text: "«Надежность и ответственность — главные достоинства»." }
-                    ]
-                },
-                {
-                    id: 8,
-                    text: "При подготовке к важному событию ты:",
-                    options: [
-                        { id: 'a', text: "Составлю детальный чек-лист и расписание, распределю этапы." },
-                        { id: 'b', text: "Позабочусь о том, чтобы все чувствовали себя уверенно и комфортно." },
-                        { id: 'c', text: "Изучу всю возможную информацию по теме, даже сверх необходимого." },
-                        { id: 'd', text: "Многократно проверю, все ли у меня готово технически, не упущены ли мелочи." }
-                    ]
+        // Данные тестов
+        const testsData = {
+            1: {
+                title: "Какой ты тип ученика?",
+                questions: [
+                    {
+                        text: "Когда ты готовишься к контрольной, тебе проще всего запомнить материал, если ты:",
+                        options: [
+                            "Нарисуешь схемы, таблицы или выделишь всё маркерами разных цветов.",
+                            "Прочитаешь вслух или обсудишь тему с кем-то.",
+                            "Пройдешься по комнате, повторяя информацию, или будешь что-то теребить в руках.",
+                            "Сразу попробуешь решить практические задачи или придумаешь примеры."
+                        ]
+                    },
+                    {
+                        text: "На новом месте (в музее, на вокзале) ты быстрее всего запомнишь маршрут, если:",
+                        options: [
+                            "Увидишь карту или план.",
+                            "Тебе его подробно объяснят словами.",
+                            "Пройдешь по нему сам один раз.",
+                            "Ориентируешься по ярким запоминающимся объектам («поверни налево у красной скульптуры»)."
+                        ]
+                    },
+                    {
+                        text: "При сборке мебели или нового гаджета ты предпочитаешь:",
+                        options: [
+                            "Внимательно изучить схему-инструкцию.",
+                            "Попросить кого-то объяснить шаги.",
+                            "Сразу начать крутить детали, разбираясь по ходу.",
+                            "Посмотреть видео-обзор на YouTube."
+                        ]
+                    },
+                    {
+                        text: "Твой идеальный способ конспектировать лекцию --- это:",
+                        options: [
+                            "Рисовать интеллект-карты (mind maps) и блок-схемы.",
+                            "Просто записывать за преподавателем, проговаривая про себя.",
+                            "Слушать, задавать вопросы и делать краткие пометки.",
+                            "Записывать ключевые термины и сразу придумывать к ним свои примеры."
+                        ]
+                    },
+                    {
+                        text: "Что тебя скорее всего отвлечет во время учебы?",
+                        options: [
+                            "Беспорядок на столе или кривые линии в тетради.",
+                            "Громкие разговоры или музыка со словами.",
+                            "Необходимость долго сидеть на одном месте.",
+                            "Мысли о том, «где я смогу это применить»."
+                        ]
+                    }
+                ],
+                results: {
+                    "A": {
+                        title: "🔷 ТЫ — ВИЗУАЛ",
+                        description: "Как ты учишься: Через зрение. Текст, изображения, цвет, пространственное расположение информации — твои лучшие друзья.",
+                        strengths: "Ты быстро находишь нужное в твоем тексте, создаешь красивые и структурированные конспекты, хорошо запоминаешь лица и детали.",
+                        advice: [
+                            "Используй цвет: Конспектируй разными цветными ручками или маркерами.",
+                            "Рисуй схемы: Превращай скучные списки в интеллект-карты, диаграммы Венна, временные линии.",
+                            "Смотри видео: Ищи документальные фильмы, обучающие ролики и анимации по теме.",
+                            "Тебе особенно понравятся направления, связанные с дизайном, инфографикой, видеомонтажом."
+                        ]
+                    },
+                    "B": {
+                        title: "🔶 ТЫ — АУДИАЛ",
+                        description: "Как ты учишься: Через слух. Тебе важно услышать информацию — от других или от себя самого.",
+                        strengths: "Ты отлично улавливаешь интонации, хорошо воспринимаешь лекции, можешь учиться, слушая подкасты или музыку (без слов).",
+                        advice: [
+                            "Читай вслух: Проговаривай учебный материал.",
+                            "Обсуждай: После прочтения параграфа объясни его содержание другу.",
+                            "Слушай аудиокниги и подкасты.",
+                            "Выбирай ораторское искусство, дебаты, тренинги по публичным выступлениям и коммуникациям."
+                        ]
+                    },
+                    "C": {
+                        title: "🟢 ТЫ — КИНЕСТЕТИК (ТАКТИЛЬНЫЙ УЧЕНИК)",
+                        description: "Как ты учишься: Через движение, осязание и действие. Тебе нужно «прочувствовать» информацию.",
+                        strengths: "Ты великолепно запоминаешь то, что делал своими руками, обладаешь хорошей моторной памятью, учишься на практике и ошибках.",
+                        advice: [
+                            "Не сиди на месте: Ходи по комнате, когда учишь стихотворение или правила.",
+                            "Делай шпаргалки: Сам процесс их написания от руки уже помогает запомнить.",
+                            "Превращай теорию в действие: Построй модель, нарисуй комикс по сюжету книги.",
+                            "Ищи мастер-классы с ручным трудом, проектной работой, ролевыми играми."
+                        ]
+                    },
+                    "D": {
+                        title: "🟣 ТЫ — ДИГИТАЛ/ПРАКТИК",
+                        description: "Как ты учишься: Через логику, системы и практическое применение. Ты задаешь вопрос «Зачем это мне нужно?».",
+                        strengths: "Ты видишь причинно-следственные связи, структурируешь информацию, отлично решаешь практические задачи.",
+                        advice: [
+                            "Ищи логику: Составляй списки, таблицы «плюсов и минусов», алгоритмы действий.",
+                            "Связывай с жизнью: Ищи примеры применения каждой формулы или правила в реальном мире.",
+                            "Ставь четкие цели: «Выучить 10 новых слов» вместо «подтянуть английский».",
+                            "На тебя ждут финансовая грамотность, программирование, аналитика данных."
+                        ]
+                    }
                 }
-            ],
-            
-            results: {
-                a: {
-                    name: "СТРАТЕГ",
-                    subtitle: "Рациональный Лидер",
-                    motto: "«Порядок должен быть во всем, особенно в мыслях и планах»",
-                    strengths: "Отличный организатор, видит систему и цель, решителен, логичен, берет на себя ответственность.",
-                    growth: "Может быть излишне критичен (к себе и другим), не всегда учитывает эмоциональную составляющую.",
-                    advice: [
-                        "Практикуй «эмоциональную разведку». Перед тем как дать совет или принять решение, спроси себя: «Что сейчас чувствуют люди, вовлеченные в ситуацию?»",
-                        "Разреши себе импровизировать. Запланируй один «спонтанный» день в месяц, где действуешь по ситуации.",
-                        "Идеальная активность: Основы предпринимательства или мастер-класс по публичным выступлениям."
-                    ],
-                    color: "#e74c3c"
-                },
-                b: {
-                    name: "ДИПЛОМАТ",
-                    subtitle: "Эмоциональный Мотиватор",
-                    motto: "«Главное — чтобы всем было хорошо и комфортно»",
-                    strengths: "Высокий эмоциональный интеллект, умение слушать, создавать атмосферу доверия, разрешать конфликты, заряжать энтузиазмом.",
-                    growth: "Можешь забывать о своих границах, тяжело принимать непопулярные решения, зависимость от настроения окружающих.",
-                    advice: [
-                        "Учись говорить «нет». Твоё желание помочь — прекрасно, но твои ресурсы не безграничны.",
-                        "Веди «дневник своих побед». Фиксируй, что ты сделал для себя.",
-                        "Идеальная активность: Тренинг по психологической устойчивости и ораторскому искусству."
-                    ],
-                    color: "#3498db"
-                },
-                c: {
-                    name: "ИССЛЕДОВАТЕЛЬ",
-                    subtitle: "Аналитик-Новатор",
-                    motto: "«Интересно, а что, если попробовать иначе?»",
-                    strengths: "Глубокий ум, любознательность, креативность, независимость суждений, способность видеть неочевидные связи.",
-                    growth: "Может «уходить в себя», прокрастинировать из-за поиска идеального решения, сложно даются рутинные задачи.",
-                    advice: [
-                        "Применяй метод «сделать сейчас — улучшить потом». Поставь таймер на 30 минут и просто начни делать задачу.",
-                        "Найди «наларника-практика». Объединись с человеком типа «Стратет» или «Опора» для проектов.",
-                        "Идеальная активность: Креативное мышление и решение задач, а также любые технические кружки (IT, дизайн)."
-                    ],
-                    color: "#2ecc71"
-                },
-                d: {
-                    name: "ОПОРА",
-                    subtitle: "Надежный Исполнитель",
-                    motto: "«Дело сделано — и сделано хорошо»",
-                    strengths: "Невероятно надежен, практичен, внимателен к деталям, добросовестен, отличный командный игрок, сохраняет спокойствие в кризис.",
-                    growth: "Сопротивление резким изменениям, боязнь совершить ошибку, не всегда видит «общую картину».",
-                    advice: [
-                        "Тренируй стратегическое мышление. Раз в неделю бери любую свою задачу и задавай вопрос: «Зачем я это делаю? Как это вписывается в большой план?»",
-                        "Разреши себе ошибаться. Начни с безопасной среды: сыграй в новую видеоигру, где не жалко проиграть.",
-                        "Идеальная активность: Права и обязанности (правовая грамотность), а также проектная работа в команде."
-                    ],
-                    color: "#f39c12"
+            },
+            2: {
+                title: "Какой ты тип искателя?",
+                questions: [
+                    {
+                        text: "Твои друзья планируют поездку на выходные. Твоя роль обычно:",
+                        options: [
+                            "Инициатор и организатор: я предлагаю идеи, составляю план, делегирую задачи.",
+                            "Мотиватор и «душа компании»: я заряжаю всех энтузиазмом, сглаживаю конфликты, создаю настроение.",
+                            "Исследователь: я ищу необычные места, читаю отзывы, предлагаю альтернативные маршруты.",
+                            "Надежная опора: я помогаю с логистикой, помню про важные мелочи (аптечка, зарядки), обеспечиваю комфорт."
+                        ]
+                    },
+                    {
+                        text: "На сложном уроке ты скорее всего:",
+                        options: [
+                            "Буду задавать вопросы о практическом применении темы и спорить, если что-то кажется нелогичным.",
+                            "Попробую связать новую тему с чем-то из жизни или своим хобби, чтобы стало интереснее.",
+                            "Уйду вглубь: буду искать дополнительную информацию в интернете, чтобы понять суть.",
+                            "Старательно запишу алгоритм или правило, чтобы потом точно правильно выполнить задание."
+                        ]
+                    },
+                    {
+                        text: "Если ты столкнешься с несправедливостью по отношению к другому, ты:",
+                        options: [
+                            "Разработаю план действий, привлеку нужных людей, буду добиваться системного решения.",
+                            "Окажу эмоциональную поддержку, помогу человеку выговориться, покажу, что он не один.",
+                            "Попробую глубоко разобраться в причинах ситуации и найти неочевидный выход.",
+                            "Предложу конкретную практическую помощь здесь и сейчас (например, пойти вместе поговорить с обидчиком)."
+                        ]
+                    },
+                    {
+                        text: "Твой идеальный проект — это:",
+                        options: [
+                            "Сложная задача с четким результатом, где можно применить стратегию и лидерство.",
+                            "Творческий процесс в команде, где важен общий настрой и крутая атмосфера.",
+                            "Что-то новое и неизведанное, где можно погрузиться в тему и сделать открытие.",
+                            "Полезное дело с ясными инструкциями, где мой вклад будет конкретным и осязаемым."
+                        ]
+                    },
+                    {
+                        text: "Когда все вокруг спорят, ты обычно:",
+                        options: [
+                            "Структурирую дискуссию: выделяю ключевые точки, ищу аргументы «за» и «против».",
+                            "Стараюсь найти общий язык, напомнить о том, что всех объединяет.",
+                            "Смотрю на спор со стороны, анализирую скрытые мотивы и причины.",
+                            "Предлагаю простое и честное решение, основанное на фактах или правилах."
+                        ]
+                    },
+                    {
+                        text: "Что тебя больше всего выбивает из колеи?",
+                        options: [
+                            "Хаос, неопределенность и отсутствие четкого плана.",
+                            "Конфликты, напряженная атмосфера и чувство, что тебя не понимают.",
+                            "Рутина, скучные и повторяющиеся задачи, отсутствие интеллектуального вызова.",
+                            "Непредвиденные изменения в последний момент и ощущение, что ты не справляешься."
+                        ]
+                    },
+                    {
+                        text: "Выбери фразу, которая тебе ближе:",
+                        options: [
+                            "«Если что-то можно улучшить — почему бы не сделать это?»",
+                            "«Самое важное — это атмосфера и люди вокруг.»",
+                            "«Интересно, а как это устроено изнутри?»",
+                            "«Надежность и ответственность — главные достоинства.»"
+                        ]
+                    },
+                    {
+                        text: "При подготовке к важному событию ты:",
+                        options: [
+                            "Составлю детальный чек-лист и расписание, распределю этапы.",
+                            "Позабочусь о том, чтобы все чувствовали себя уверенно и комфортно.",
+                            "Изучу всю возможную информацию по теме, даже сверх необходимого.",
+                            "Многократно проверю, все ли у меня готово технически, не упущены ли мелочи."
+                        ]
+                    }
+                ],
+                results: {
+                    "A": {
+                        title: "СТРАТЕГ (Рациональный Лидер)",
+                        description: "Твой девиз: «Порядок должен быть во всем, особенно в мыслях и планах».",
+                        strengths: "Отличный организатор, видит систему и цель, решителен, логичен, берет на себя ответственность.",
+                        advice: [
+                            "Практикуй «эмоциональную разведку». Перед тем как дать совет, спроси себя: «Что сейчас чувствуют люди?»",
+                            "Разреши себе импровизировать. Запланируй один «спонтанный» день в месяц.",
+                            "Идеальная активность: Основы предпринимательства или мастер-класс по публичным выступлениям."
+                        ]
+                    },
+                    "B": {
+                        title: "ДИПЛОМАТ (Эмоциональный Мотиватор)",
+                        description: "Твой девиз: «Главное — чтобы всем было хорошо и комфортно».",
+                        strengths: "Высокий эмоциональный интеллект, умение слушать, создавать атмосферу доверия, разрешать конфликты, заряжать энтузиазмом.",
+                        advice: [
+                            "Учись говорить «нет». Твоё желание помочь — прекрасно, но твои ресурсы не безграничны.",
+                            "Веди «дневник своих побед». Фиксируй, что ты сделал для себя.",
+                            "Идеальная активность: Тренинг по психологической устойчивости и ораторскому искусству."
+                        ]
+                    },
+                    "C": {
+                        title: "ИССЛЕДОВАТЕЛЬ (Аналитик-Новатор)",
+                        description: "Твой девиз: «Интересно, а что, если попробовать иначе?»",
+                        strengths: "Глубокий ум, любознательность, креативность, независимость суждений, способность видеть неочевидные связи.",
+                        advice: [
+                            "Применяй метод «сделать сейчас — улучшить потом». Поставь таймер на 30 минут и просто начни.",
+                            "Найди «наларника-практика». Объединись с человеком типа «Стратег» или «Опора» для проектов.",
+                            "Идеальная активность: Креативное мышление и решение задач, а также любые технические кружки."
+                        ]
+                    },
+                    "D": {
+                        title: "ОПОРА (Надежный Исполнитель)",
+                        description: "Твой девиз: «Дело сделано — и сделано хорошо».",
+                        strengths: "Невероятно надежен, практичен, внимателен к деталям, добросовестен, отличный командный игрок, сохраняет спокойствие в кризис.",
+                        advice: [
+                            "Тренируй стратегическое мышление. Раз в неделю бери любую свою задачу и задавай вопрос: «Зачем я это делаю?»",
+                            "Разреши себе ошибаться. Начни с безопасной среды: сыграй в новую видеоигру, где не жалко проиграть.",
+                            "Идеальная активность: Права и обязанности, а также проектная работа в команде."
+                        ]
+                    }
+                }
+            },
+            3: {
+                title: "Тест на эмоциональный интеллект (EQ)",
+                questions: [
+                    {
+                        text: "Я могу точно назвать эмоцию, которую испытываю в данный момент (например, разочарование, досада, радость).",
+                        options: ["1 - Совершенно не согласен", "2 - Скорее не согласен", "3 - Ни да, ни нет", "4 - Скорее согласен", "5 - Полностью согласен"]
+                    },
+                    {
+                        text: "Я понимаю, как мое настроение влияет на мои решения и действия.",
+                        options: ["1 - Совершенно не согласен", "2 - Скорее не согласен", "3 - Ни да, ни нет", "4 - Скорее согласен", "5 - Полтельно согласен"]
+                    },
+                    {
+                        text: "Столкнувшись с серьезной проблемой, я сначала успокаиваюсь и только потом действую.",
+                        options: ["1 - Совершенно не согласен", "2 - Скорее не согласен", "3 - Ни да, ни нет", "4 - Скорее согласен", "5 - Полностью согласен"]
+                    },
+                    {
+                        text: "Мне легко дается контроль над своими импульсивными порывами (например, не перебивать, не срывать злость).",
+                        options: ["1 - Совершенно не согласен", "2 - Скорее не согласен", "3 - Ни да, ни нет", "4 - Скорее согласен", "5 - Полностью согласен"]
+                    },
+                    {
+                        text: "Я способен сохранять спокойствие и ясность мысли даже под сильным давлением.",
+                        options: ["1 - Совершенно не согласен", "2 - Скорее не согласен", "3 - Ни да, ни нет", "4 - Скорее согласен", "5 - Полностью согласен"]
+                    },
+                    {
+                        text: "Я легко замечаю, когда собеседнику некомфортно или он расстроен, даже если он ничего не говорит.",
+                        options: ["1 - Совершенно не согласен", "2 - Скорее не согласен", "3 - Ни да, ни нет", "4 - Скорее согласен", "5 - Полностью согласен"]
+                    },
+                    {
+                        text: "Мне интересно понять, почему другие люди поступают именно так, что они при этом чувствуют.",
+                        options: ["1 - Совершенно не согласен", "2 - Скорее не согласен", "3 - Ни да, ни нет", "4 - Скорее согласен", "5 - Полностью согласен"]
+                    },
+                    {
+                        text: "В споре я способен увидеть и признать точку зрения, противоположную моей.",
+                        options: ["1 - Совершенно не согласен", "2 - Скорее не согласен", "3 - Ни да, ни нет", "4 - Скорее согласен", "5 - Полностью согласен"]
+                    },
+                    {
+                        text: "Я замечаю невербальные сигналы (тон голоса, позу, выражение лица) и учитываю их в общении.",
+                        options: ["1 - Совершенно не согласен", "2 - Скорее не согласен", "3 - Ни да, ни нет", "4 - Скорее согласен", "5 - Полностью согласен"]
+                    },
+                    {
+                        text: "Я чувствую эмоциональную атмосферу в коллективе (напряжение, сплоченность, апатию).",
+                        options: ["1 - Совершенно не согласен", "2 - Скорее не согласен", "3 - Ни да, ни нет", "4 - Скорее согласен", "5 - Полностью согласен"]
+                    },
+                    {
+                        text: "Я умею тактично и понятно давать обратную связь, не задевая чувства человека.",
+                        options: ["1 - Совершенно не согласен", "2 - Скорее не согласен", "3 - Ни да, ни нет", "4 - Скорее согласен", "5 - Полностью согласен"]
+                    },
+                    {
+                        text: "В конфликтной ситуации я стремлюсь найти компромиссное решение, а не просто отстоять свою правоту.",
+                        options: ["1 - Совершенно не согласен", "2 - Скорее не согласен", "3 - Ни да, ни нет", "4 - Скорее согласен", "5 - Полностью согласен"]
+                    },
+                    {
+                        text: "Мне легко вдохновить или мотивировать других людей на общее дело.",
+                        options: ["1 - Совершенно не согласен", "2 - Скорее не согласен", "3 - Ни да, ни нет", "4 - Скорее согласен", "5 - Полностью согласен"]
+                    },
+                    {
+                        text: "Я строю и поддерживаю долгосрочные, доверительные отношения.",
+                        options: ["1 - Совершенно не согласен", "2 - Скорее не согласен", "3 - Ни да, ни нет", "4 - Скорее согласен", "5 - Полностью согласен"]
+                    },
+                    {
+                        text: "Неудачи заставляют меня искать новые пути, а не опускать руки.",
+                        options: ["1 - Совершенно не согласен", "2 - Скорее не согласен", "3 - Ни да, ни нет", "4 - Скорее согласен", "5 - Полностью согласен"]
+                    }
+                ],
+                results: {
+                    "low": {
+                        title: "Зона развития (15-35 баллов)",
+                        description: "Эмоциональные реакции часто спонтанны и могут мешать в работе и отношениях. Распознавание эмоций (своих и чужих) требует сознательных усилий.",
+                        advice: [
+                            "Начните с себя. Каждый день 2-3 раза спрашивайте себя: «Что я сейчас чувствую?». Начните вести простой дневник эмоций.",
+                            "Создайте «паузу». Перед важным разговором или реакцией сделайте 3 глубоких вдоха-выдоха.",
+                            "Тренируйте наблюдение. В транспорте или кафе наблюдайте за людьми и пытайтесь угадать, какое у них настроение."
+                        ]
+                    },
+                    "medium": {
+                        title: "Средний уровень (36-55 баллов)",
+                        description: "Вы успешно справляетесь с эмоциями в знакомых ситуациях, но в новом стрессе можете «потеряться». Есть хорошая база для развития.",
+                        advice: [
+                            "Сфокусируйтесь на «слабом звене». Определите самый низкий балл по блокам и работайте целенаправленно с ним.",
+                            "Практикуйте активное слушание. В диалоге полностью концентрируйтесь на собеседнике.",
+                            "Анализируйте итоги. После сложного разговора разберите его мысленно: какие эмоции были у сторон?"
+                        ]
+                    },
+                    "high": {
+                        title: "Высокий уровень (56-75 баллов)",
+                        description: "Вы хорошо понимаете и управляете своими эмоциями, используете их как источник информации. Вы чуткий собеседник и эффективный командный игрок.",
+                        advice: [
+                            "Используйте EQ для лидерства. Развивайте навыки мотивации, разрешения сложных конфликтов.",
+                            "Станьте ментором. Помогайте развивать эмоциональные навыки коллегам или подчиненным.",
+                            "Профилактика выгорания. Четко разделяйте свою и чужую ответственность за чувства, практикуйте цифровой детокс."
+                        ]
+                    }
                 }
             }
         };
 
-        // Глобальные переменные
-        let currentQuestion = 0;
-        let answers = [];
-        let selectedOption = null;
+        // DOM элементы
+        const catalog = document.getElementById('catalog');
+        const testCards = document.querySelectorAll('.test-card');
+        const testPages = document.querySelectorAll('.test-page');
+        const backButtons = document.querySelectorAll('.back-button');
+        const submitButtons = {
+            1: document.getElementById('submit-test-1'),
+            2: document.getElementById('submit-test-2'),
+            3: document.getElementById('submit-test-3')
+        };
+        const resultContainers = {
+            1: document.getElementById('result-1'),
+            2: document.getElementById('result-2'),
+            3: document.getElementById('result-3')
+        };
 
-        // Инициализация Telegram Web App
-        let tg = window.Telegram.WebApp;
-        
-        // Расширяем на весь экран
-        tg.expand();
-        
-        // Устанавливаем цвет фона
-        tg.setHeaderColor('#6a11cb');
-        tg.setBackgroundColor('#6a11cb');
-
-        // Функции
-        function showScreen(screenId) {
-            // Скрыть все экраны
-            document.querySelectorAll('.screen').forEach(screen => {
-                screen.classList.remove('active');
+        // Инициализация тестов
+        function initTests() {
+            // Генерация вопросов для каждого теста
+            for (let testId in testsData) {
+                const test = testsData[testId];
+                const testPage = document.getElementById(`test-page-${testId}`);
+                const questionsContainer = testPage.querySelector('.questions-container');
+                
+                questionsContainer.innerHTML = '';
+                
+                test.questions.forEach((question, index) => {
+                    const questionBlock = document.createElement('div');
+                    questionBlock.className = 'question-block';
+                    questionBlock.innerHTML = `
+                        <div class="question-number">Вопрос ${index + 1} из ${test.questions.length}</div>
+                        <div class="question-text">${question.text}</div>
+                        <div class="options">
+                            ${question.options.map((option, optIndex) => `
+                                <div class="option" data-test="${testId}" data-question="${index}" data-option="${optIndex}">
+                                    <input type="radio" id="test${testId}_q${index}_opt${optIndex}" name="test${testId}_q${index}">
+                                    <label for="test${testId}_q${index}_opt${optIndex}">
+                                        <div class="option-letter">${String.fromCharCode(65 + optIndex)}</div>
+                                        <div>${option}</div>
+                                    </label>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                    questionsContainer.appendChild(questionBlock);
+                });
+                
+                // Назначаем обработчики для выбора ответов
+                const options = questionsContainer.querySelectorAll('.option');
+                options.forEach(option => {
+                    option.addEventListener('click', function() {
+                        const testId = this.dataset.test;
+                        const question = this.dataset.question;
+                        
+                        // Снимаем выделение с других вариантов в этом вопросе
+                        const otherOptions = document.querySelectorAll(`.option[data-test="${testId}"][data-question="${question}"]`);
+                        otherOptions.forEach(opt => opt.classList.remove('selected'));
+                        
+                        // Выделяем выбранный вариант
+                        this.classList.add('selected');
+                        
+                        // Активируем радио-кнопку
+                        const radio = this.querySelector('input');
+                        radio.checked = true;
+                    });
+                });
+            }
+            
+            // Обработчики для карточек тестов
+            testCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const testId = this.dataset.test;
+                    showTestPage(testId);
+                });
             });
             
-            // Показать нужный экран
-            document.getElementById(screenId).classList.add('active');
+            // Обработчики для кнопок "Назад"
+            backButtons.forEach(button => {
+                button.addEventListener('click', showCatalog);
+            });
             
-            // Обновить кнопку назад в Telegram
-            if (screenId === 'screen-start') {
-                tg.BackButton.hide();
-            } else if (screenId === 'screen-question') {
-                tg.BackButton.show();
-                tg.BackButton.onClick(previousQuestion);
-            } else if (screenId === 'screen-results') {
-                tg.BackButton.hide();
+            // Обработчики для кнопок "Узнать результат"
+            for (let testId in submitButtons) {
+                submitButtons[testId].addEventListener('click', function() {
+                    calculateResult(testId);
+                });
             }
         }
 
-        function startTest() {
-            currentQuestion = 0;
-            answers = [];
-            selectedOption = null;
-            showScreen('screen-question');
-            loadQuestion();
+        // Показать страницу теста
+        function showTestPage(testId) {
+            catalog.classList.remove('active');
+            testPages.forEach(page => page.classList.remove('active'));
+            
+            const testPage = document.getElementById(`test-page-${testId}`);
+            testPage.classList.add('active');
+            
+            // Прокрутка вверх
+            window.scrollTo(0, 0);
+            
+            // Скрыть результаты, если они были показаны
+            resultContainers[testId].classList.remove('active');
+            submitButtons[testId].disabled = false;
+            submitButtons[testId].textContent = 'Узнать результат 🎯';
         }
 
-        function loadQuestion() {
-            const question = testData.questions[currentQuestion];
+        // Показать каталог
+        function showCatalog() {
+            catalog.classList.add('active');
+            testPages.forEach(page => page.classList.remove('active'));
             
-            // Обновить текст вопроса
-            document.getElementById('question-text').textContent = question.text;
-            
-            // Обновить прогресс
-            const progress = ((currentQuestion) / testData.questions.length) * 100;
-            document.getElementById('progress-fill').style.width = `${progress}%`;
-            document.getElementById('progress-text').textContent = `Вопрос ${currentQuestion + 1} из ${testData.questions.length}`;
-            
-            // Создать варианты ответов
-            const optionsContainer = document.getElementById('options-container');
-            optionsContainer.innerHTML = '';
-            
-            question.options.forEach(option => {
-                const optionElement = document.createElement('div');
-                optionElement.className = 'option';
-                optionElement.innerHTML = `
-                    <div class="option-letter">${option.id.toUpperCase()}</div>
-                    <div class="option-text">${option.text}</div>
-                `;
-                
-                optionElement.addEventListener('click', () => selectOption(option.id));
-                
-                // Проверить, был ли уже выбран этот вариант
-                if (answers[currentQuestion] === option.id) {
-                    optionElement.classList.add('selected');
-                }
-                
-                optionsContainer.appendChild(optionElement);
-            });
-            
-            // Обновить состояние кнопки "Далее"
-            updateNextButton();
+            // Прокрутка вверх
+            window.scrollTo(0, 0);
         }
 
-        function selectOption(optionId) {
-            selectedOption = optionId;
-            answers[currentQuestion] = optionId;
+        // Подсчет результатов
+        function calculateResult(testId) {
+            const test = testsData[testId];
+            const testPage = document.getElementById(`test-page-${testId}`);
+            const questions = testPage.querySelectorAll('.question-block');
+            const submitButton = submitButtons[testId];
+            const resultContainer = resultContainers[testId];
             
-            // Снять выделение со всех вариантов
-            document.querySelectorAll('.option').forEach(opt => {
-                opt.classList.remove('selected');
-            });
-            
-            // Выделить выбранный вариант
-            event.currentTarget.classList.add('selected');
-            
-            // Активировать кнопку "Далее"
-            updateNextButton();
-        }
-
-        function updateNextButton() {
-            const nextBtn = document.getElementById('next-btn');
-            const hasAnswer = answers[currentQuestion] !== undefined;
-            nextBtn.disabled = !hasAnswer;
-            nextBtn.textContent = currentQuestion < testData.questions.length - 1 ? 'Далее' : 'Узнать результат';
-        }
-
-        function nextQuestion() {
-            if (currentQuestion < testData.questions.length - 1) {
-                currentQuestion++;
-                selectedOption = null;
-                loadQuestion();
-            } else {
-                showResults();
-            }
-        }
-
-        function previousQuestion() {
-            if (currentQuestion > 0) {
-                currentQuestion--;
-                loadQuestion();
-            } else {
-                showScreen('screen-start');
-            }
-        }
-
-        function showResults() {
-            // Подсчитать результаты
-            const counts = { a: 0, b: 0, c: 0, d: 0 };
-            answers.forEach(answer => {
-                if (counts[answer] !== undefined) {
-                    counts[answer]++;
-                }
-            });
-            
-            // Найти преобладающий тип
-            let maxCount = 0;
-            let maxType = 'a';
-            
-            for (const [type, count] of Object.entries(counts)) {
-                if (count > maxCount) {
-                    maxCount = count;
-                    maxType = type;
+            // Проверка, что на все вопросы даны ответы
+            let allAnswered = true;
+            for (let i = 0; i < questions.length; i++) {
+                const selected = questions[i].querySelector('.option.selected');
+                if (!selected) {
+                    allAnswered = false;
+                    break;
                 }
             }
             
-            // Если несколько типов с одинаковым количеством - смешанный тип
-            const maxTypes = Object.entries(counts)
-                .filter(([type, count]) => count === maxCount)
-                .map(([type]) => type);
-            
-            let result;
-            if (maxTypes.length > 1) {
-                // Смешанный тип
-                result = {
-                    name: "СМЕШАННЫЙ ТИП",
-                    subtitle: "Гибкий и адаптивный",
-                    motto: "«Ты сочетаешь в себе сильные стороны разных типов!»",
-                    strengths: "Ты умеешь адаптироваться к разным ситуациям, видишь ситуацию с разных сторон.",
-                    growth: "Иногда может быть сложно определиться с приоритетами или стиль действий.",
-                    advice: [
-                        "Посмотри советы для всех типов и выбери то, что тебе больше всего откликается.",
-                        "Экспериментируй! Пробуй в разных ситуациях применять разные подходы.",
-                        "Твоя сила — в гибкости. Используй это как суперсилу!"
-                    ],
-                    color: "#9b59b6",
-                    isMixed: true
-                };
-            } else {
-                result = testData.results[maxType];
-                result.isMixed = false;
+            if (!allAnswered) {
+                alert('Пожалуйста, ответьте на все вопросы перед получением результата.');
+                return;
             }
             
-            // Отобразить результат
-            const resultCard = document.getElementById('result-card');
-            const detailsContainer = document.querySelector('.results-details');
+            // Блокируем кнопку и меняем текст
+            submitButton.disabled = true;
+            submitButton.textContent = 'Обработка результатов...';
             
-            // Карточка с типом личности
-            resultCard.innerHTML = `
-                <div class="personality-badge" style="background: ${result.color}">
-                    ${result.name}
-                </div>
-                <div class="personality-subtitle">${result.subtitle}</div>
-                <div class="motto">${result.motto}</div>
+            // Для тестов 1 и 2 считаем преобладающий тип
+            if (testId == 1 || testId == 2) {
+                const counts = { A: 0, B: 0, C: 0, D: 0 };
                 
-                <div class="stats">
-                    <div class="stat">
-                        <span class="stat-letter" style="color: #e74c3c">A</span>
-                        <span class="stat-value">${counts.a}</span>
-                        <span class="stat-label">Стратег</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-letter" style="color: #3498db">B</span>
-                        <span class="stat-value">${counts.b}</span>
-                        <span class="stat-label">Дипломат</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-letter" style="color: #2ecc71">C</span>
-                        <span class="stat-value">${counts.c}</span>
-                        <span class="stat-label">Исследователь</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-letter" style="color: #f39c12">D</span>
-                        <span class="stat-value">${counts.d}</span>
-                        <span class="stat-label">Опора</span>
-                    </div>
-                </div>
+                for (let i = 0; i < questions.length; i++) {
+                    const selected = questions[i].querySelector('.option.selected');
+                    const optionIndex = parseInt(selected.dataset.option);
+                    const optionLetter = String.fromCharCode(65 + optionIndex);
+                    counts[optionLetter]++;
+                }
+                
+                // Находим максимальное количество
+                let maxCount = 0;
+                let resultType = 'A';
+                
+                for (let type in counts) {
+                    if (counts[type] > maxCount) {
+                        maxCount = counts[type];
+                        resultType = type;
+                    }
+                }
+                
+                // Показываем результат
+                showResult(testId, resultType, counts);
+                
+            } else if (testId == 3) {
+                // Для теста 3 суммируем баллы
+                let totalScore = 0;
+                
+                for (let i = 0; i < questions.length; i++) {
+                    const selected = questions[i].querySelector('.option.selected');
+                    const optionIndex = parseInt(selected.dataset.option);
+                    // optionIndex соответствует оценке от 0 до 4, но у нас шкала от 1 до 5
+                    const score = optionIndex + 1;
+                    totalScore += score;
+                }
+                
+                // Определяем уровень
+                let resultLevel;
+                if (totalScore <= 35) {
+                    resultLevel = 'low';
+                } else if (totalScore <= 55) {
+                    resultLevel = 'medium';
+                } else {
+                    resultLevel = 'high';
+                }
+                
+                // Показываем результат
+                showResult(testId, resultLevel, totalScore);
+            }
+            
+            // Восстанавливаем кнопку
+            setTimeout(() => {
+                submitButton.textContent = 'Посмотреть результат снова';
+                submitButton.disabled = false;
+            }, 1000);
+        }
+
+        // Показать результат теста
+        function showResult(testId, resultType, extraData) {
+            const test = testsData[testId];
+            const resultContainer = resultContainers[testId];
+            const result = test.results[resultType];
+            
+            // Генерируем HTML результата
+            let resultHTML = `
+                <h2 class="result-title"><i class="fas fa-star"></i> Результаты теста</h2>
+                <div class="result-type">${result.title}</div>
+                <div class="result-description">${result.description}</div>
             `;
             
-            // Детали результата
-            detailsContainer.innerHTML = `
+            // Для теста 3 показываем баллы
+            if (testId == 3) {
+                resultHTML += `
+                    <div class="result-section">
+                        <h4><i class="fas fa-chart-bar"></i> Ваши баллы: ${extraData}/75</h4>
+                        <p>${result.description}</p>
+                    </div>
+                `;
+            } else {
+                resultHTML += `
+                    <div class="result-section">
+                        <h4><i class="fas fa-check-circle"></i> Сильные стороны</h4>
+                        <p>${result.strengths}</p>
+                    </div>
+                `;
+            }
+            
+            resultHTML += `
                 <div class="result-section">
-                    <h3><span class="icon">✨</span> Твои сильные стороны</h3>
-                    <p>${result.strengths}</p>
-                </div>
-                
-                <div class="result-section">
-                    <h3><span class="icon">🌱</span> Зоны роста</h3>
-                    <p>${result.growth}</p>
-                </div>
-                
-                <div class="result-section">
-                    <h3><span class="icon">💡</span> Советы для развития</h3>
-                    <ul class="advice-list">
+                    <h4><i class="fas fa-lightbulb"></i> Советы для развития</h4>
+                    <ul class="result-list">
                         ${result.advice.map(item => `<li>${item}</li>`).join('')}
                     </ul>
                 </div>
             `;
             
-            // Если не смешанный тип, показать дополнительную информацию
-            if (!result.isMixed) {
-                const resultKey = Object.keys(testData.results).find(key => 
-                    testData.results[key].name === result.name
-                );
-                
-                if (resultKey) {
-                    const otherTypes = Object.keys(testData.results).filter(key => key !== resultKey);
-                    const randomTypeKey = otherTypes[Math.floor(Math.random() * otherTypes.length)];
-                    const randomType = testData.results[randomTypeKey];
-                    
-                    detailsContainer.innerHTML += `
-                        <div class="result-section tip">
-                            <h3><span class="icon">🤝</span> Интересный факт</h3>
-                            <p>Попробуй развивать в себе качества <strong>${randomType.name.toLowerCase()}</strong>: ${randomType.strengths.split('.')[0]}.</p>
-                        </div>
-                    `;
-                }
+            // Для тестов 1 и 2 показываем статистику
+            if (testId == 1 || testId == 2) {
+                resultHTML += `
+                    <div class="result-section">
+                        <h4><i class="fas fa-chart-pie"></i> Статистика ответов</h4>
+                        <p>А: ${extraData.A} | Б: ${extraData.B} | В: ${extraData.C} | Г: ${extraData.D}</p>
+                    </div>
+                `;
             }
             
-            // Перейти к экрану результатов
-            showScreen('screen-results');
+            resultHTML += `
+                <div class="result-section">
+                    <h4><i class="fas fa-share-alt"></i> Поделиться результатом</h4>
+                    <p>Расскажите друзьям о своем результате! 🎉</p>
+                </div>
+            `;
             
-            // Отправить данные в Telegram (опционально)
-            tg.sendData(JSON.stringify({
-                type: 'test_completed',
-                result: result.name,
-                answers: answers
-            }));
+            resultContainer.innerHTML = resultHTML;
+            resultContainer.classList.add('active');
+            
+            // Прокрутка к результатам
+            setTimeout(() => {
+                resultContainer.scrollIntoView({ behavior: 'smooth' });
+            }, 300);
         }
 
-        function restartTest() {
-            showScreen('screen-start');
-        }
-
-        // Инициализация при загрузке
+        // Инициализация при загрузке страницы
         document.addEventListener('DOMContentLoaded', function() {
-            // Проверить, открыто ли в Telegram Web App
-            if (window.Telegram && window.Telegram.WebApp) {
-                // Настроить Telegram Web App
-                tg.ready();
-                
-                // Установить тему
-                if (tg.colorScheme === 'dark') {
-                    document.body.classList.add('dark-mode');
-                }
-                
-                // Обработчик смены темы
-                tg.onEvent('themeChanged', () => {
-                    if (tg.colorScheme === 'dark') {
-                        document.body.classList.add('dark-mode');
-                    } else {
-                        document.body.classList.remove('dark-mode');
-                    }
-                });
-            }
+            initTests();
             
-            // Показать стартовый экран
-            showScreen('screen-start');
+            // Добавляем немного интерактивности для красоты
+            const cards = document.querySelectorAll('.test-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
         });
     </script>
 </body>
