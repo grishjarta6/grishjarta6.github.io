@@ -105,7 +105,7 @@
             padding: 20px;
             box-shadow: var(--shadow);
             transition: transform 0.3s, box-shadow 0.3s;
-            border: 1px solid var(--border-color);
+            border: 2px solid var(--border-color);
             cursor: pointer;
         }
 
@@ -219,10 +219,13 @@
         }
 
         .option.selected {
-            background-color: rgba(138, 43, 226, 0.2);
-            border-color: var(--accent-color);
+           background-color: rgba(138, 43, 226, 0.3);
+           border-color: var(--accent-color);
+           border-width: 2px;
+           transform: scale(1.02);
+           box-shadow: 0 0 0 2px rgba(138, 43, 226, 0.2),
+                       0 4px 8px rgba(0, 0, 0, 0.2);
         }
-
         .option input {
             display: none;
         }
@@ -332,7 +335,7 @@
         /* Футер */
         footer {
             background-color: var(--secondary-color);
-            padding: 20px 0;
+            padding: 10px 0;
             text-align: center;
             position: fixed;
             bottom: 0;
@@ -344,7 +347,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
+            gap: 2px;
         }
 
         .footer-icons {
@@ -367,11 +370,11 @@
             .container {
                 max-width: 900px;
             }
-            
+
             body {
                 background: linear-gradient(135deg, var(--primary-color) 0%, #1a0638 100%);
             }
-            
+
             .test-card {
                 padding: 25px;
             }
@@ -452,17 +455,17 @@
                 <button class="back-button"><i class="fas fa-arrow-left"></i> Назад к каталогу</button>
                 <div class="test-meta">🎓 Тип ученика</div>
             </div>
-            
+
             <h2 class="test-title">Какой ты тип ученика?</h2>
             <p class="test-subtitle">Узнай свой стиль восприятия информации и получи советы, как учиться эффективнее.</p>
-            
+
             <!-- Вопросы теста 1 -->
             <div class="questions-container">
                 <!-- Вопросы будут сгенерированы JavaScript -->
             </div>
-            
+
             <button class="submit-button" id="submit-test-1">Узнать результат 🎯</button>
-            
+
             <!-- Результаты теста 1 -->
             <div class="result-container" id="result-1">
                 <!-- Результат будет сгенерирован JavaScript -->
@@ -474,17 +477,17 @@
                 <button class="back-button"><i class="fas fa-arrow-left"></i> Назад к каталогу</button>
                 <div class="test-meta">🔍 Тип искателя</div>
             </div>
-            
+
             <h2 class="test-title">Какой ты тип искателя?</h2>
             <p class="test-subtitle">Узнай свой стиль познания мира и получи советы, как использовать свои сильные стороны.</p>
-            
+
             <!-- Вопросы теста 2 -->
             <div class="questions-container">
                 <!-- Вопросы будут сгенерированы JavaScript -->
             </div>
-            
+
             <button class="submit-button" id="submit-test-2">Узнать результат 🎯</button>
-            
+
             <!-- Результаты теста 2 -->
             <div class="result-container" id="result-2">
                 <!-- Результат будет сгенерирован JavaScript -->
@@ -496,17 +499,17 @@
                 <button class="back-button"><i class="fas fa-arrow-left"></i> Назад к каталогу</button>
                 <div class="test-meta">❤️ Эмоциональный интеллект</div>
             </div>
-            
+
             <h2 class="test-title">Тест на эмоциональный интеллект (EQ)</h2>
             <p class="test-subtitle">Оцените, насколько каждое из утверждений соответствует вашим типичным реакциям и чувствам.</p>
-            
+
             <!-- Вопросы теста 3 -->
             <div class="questions-container">
                 <!-- Вопросы будут сгенерированы JavaScript -->
             </div>
-            
+
             <button class="submit-button" id="submit-test-3">Узнать результат 🎯</button>
-            
+
             <!-- Результаты теста 3 -->
             <div class="result-container" id="result-3">
                 <!-- Результат будет сгенерирован JavaScript -->
@@ -517,11 +520,8 @@
     <footer>
         <div class="container footer-content">
             <div class="footer-icons">
-                <a href="#"><i class="fab fa-github"></i></a>
-                <a href="#"><i class="fas fa-heart"></i></a>
-                <a href="#"><i class="fas fa-share-alt"></i></a>
             </div>
-            <p>🧠 Каталог тестов | Создано для GitHub Pages</p>
+
         </div>
     </footer>
 
@@ -862,9 +862,9 @@
                 const test = testsData[testId];
                 const testPage = document.getElementById(`test-page-${testId}`);
                 const questionsContainer = testPage.querySelector('.questions-container');
-                
+
                 questionsContainer.innerHTML = '';
-                
+
                 test.questions.forEach((question, index) => {
                     const questionBlock = document.createElement('div');
                     questionBlock.className = 'question-block';
@@ -885,28 +885,28 @@
                     `;
                     questionsContainer.appendChild(questionBlock);
                 });
-                
+
                 // Назначаем обработчики для выбора ответов
                 const options = questionsContainer.querySelectorAll('.option');
                 options.forEach(option => {
                     option.addEventListener('click', function() {
                         const testId = this.dataset.test;
                         const question = this.dataset.question;
-                        
+
                         // Снимаем выделение с других вариантов в этом вопросе
                         const otherOptions = document.querySelectorAll(`.option[data-test="${testId}"][data-question="${question}"]`);
                         otherOptions.forEach(opt => opt.classList.remove('selected'));
-                        
+
                         // Выделяем выбранный вариант
                         this.classList.add('selected');
-                        
+
                         // Активируем радио-кнопку
                         const radio = this.querySelector('input');
                         radio.checked = true;
                     });
                 });
             }
-            
+
             // Обработчики для карточек тестов
             testCards.forEach(card => {
                 card.addEventListener('click', function() {
@@ -914,12 +914,12 @@
                     showTestPage(testId);
                 });
             });
-            
+
             // Обработчики для кнопок "Назад"
             backButtons.forEach(button => {
                 button.addEventListener('click', showCatalog);
             });
-            
+
             // Обработчики для кнопок "Узнать результат"
             for (let testId in submitButtons) {
                 submitButtons[testId].addEventListener('click', function() {
@@ -932,13 +932,13 @@
         function showTestPage(testId) {
             catalog.classList.remove('active');
             testPages.forEach(page => page.classList.remove('active'));
-            
+
             const testPage = document.getElementById(`test-page-${testId}`);
             testPage.classList.add('active');
-            
+
             // Прокрутка вверх
             window.scrollTo(0, 0);
-            
+
             // Скрыть результаты, если они были показаны
             resultContainers[testId].classList.remove('active');
             submitButtons[testId].disabled = false;
@@ -949,7 +949,7 @@
         function showCatalog() {
             catalog.classList.add('active');
             testPages.forEach(page => page.classList.remove('active'));
-            
+
             // Прокрутка вверх
             window.scrollTo(0, 0);
         }
@@ -961,7 +961,7 @@
             const questions = testPage.querySelectorAll('.question-block');
             const submitButton = submitButtons[testId];
             const resultContainer = resultContainers[testId];
-            
+
             // Проверка, что на все вопросы даны ответы
             let allAnswered = true;
             for (let i = 0; i < questions.length; i++) {
@@ -971,45 +971,45 @@
                     break;
                 }
             }
-            
+
             if (!allAnswered) {
                 alert('Пожалуйста, ответьте на все вопросы перед получением результата.');
                 return;
             }
-            
+
             // Блокируем кнопку и меняем текст
             submitButton.disabled = true;
             submitButton.textContent = 'Обработка результатов...';
-            
+
             // Для тестов 1 и 2 считаем преобладающий тип
             if (testId == 1 || testId == 2) {
                 const counts = { A: 0, B: 0, C: 0, D: 0 };
-                
+
                 for (let i = 0; i < questions.length; i++) {
                     const selected = questions[i].querySelector('.option.selected');
                     const optionIndex = parseInt(selected.dataset.option);
                     const optionLetter = String.fromCharCode(65 + optionIndex);
                     counts[optionLetter]++;
                 }
-                
+
                 // Находим максимальное количество
                 let maxCount = 0;
                 let resultType = 'A';
-                
+
                 for (let type in counts) {
                     if (counts[type] > maxCount) {
                         maxCount = counts[type];
                         resultType = type;
                     }
                 }
-                
+
                 // Показываем результат
                 showResult(testId, resultType, counts);
-                
+
             } else if (testId == 3) {
                 // Для теста 3 суммируем баллы
                 let totalScore = 0;
-                
+
                 for (let i = 0; i < questions.length; i++) {
                     const selected = questions[i].querySelector('.option.selected');
                     const optionIndex = parseInt(selected.dataset.option);
@@ -1017,7 +1017,7 @@
                     const score = optionIndex + 1;
                     totalScore += score;
                 }
-                
+
                 // Определяем уровень
                 let resultLevel;
                 if (totalScore <= 35) {
@@ -1027,11 +1027,11 @@
                 } else {
                     resultLevel = 'high';
                 }
-                
+
                 // Показываем результат
                 showResult(testId, resultLevel, totalScore);
             }
-            
+
             // Восстанавливаем кнопку
             setTimeout(() => {
                 submitButton.textContent = 'Посмотреть результат снова';
@@ -1044,14 +1044,14 @@
             const test = testsData[testId];
             const resultContainer = resultContainers[testId];
             const result = test.results[resultType];
-            
+
             // Генерируем HTML результата
             let resultHTML = `
                 <h2 class="result-title"><i class="fas fa-star"></i> Результаты теста</h2>
                 <div class="result-type">${result.title}</div>
                 <div class="result-description">${result.description}</div>
             `;
-            
+
             // Для теста 3 показываем баллы
             if (testId == 3) {
                 resultHTML += `
@@ -1068,7 +1068,7 @@
                     </div>
                 `;
             }
-            
+
             resultHTML += `
                 <div class="result-section">
                     <h4><i class="fas fa-lightbulb"></i> Советы для развития</h4>
@@ -1077,7 +1077,7 @@
                     </ul>
                 </div>
             `;
-            
+
             // Для тестов 1 и 2 показываем статистику
             if (testId == 1 || testId == 2) {
                 resultHTML += `
@@ -1087,17 +1087,17 @@
                     </div>
                 `;
             }
-            
+
             resultHTML += `
                 <div class="result-section">
                     <h4><i class="fas fa-share-alt"></i> Поделиться результатом</h4>
                     <p>Расскажите друзьям о своем результате! 🎉</p>
                 </div>
             `;
-            
+
             resultContainer.innerHTML = resultHTML;
             resultContainer.classList.add('active');
-            
+
             // Прокрутка к результатам
             setTimeout(() => {
                 resultContainer.scrollIntoView({ behavior: 'smooth' });
@@ -1107,7 +1107,7 @@
         // Инициализация при загрузке страницы
         document.addEventListener('DOMContentLoaded', function() {
             initTests();
-            
+
             // Добавляем немного интерактивности для красоты
             const cards = document.querySelectorAll('.test-card');
             cards.forEach((card, index) => {
