@@ -3,85 +3,198 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ПРОПАЛ ХАЧ БЛЯХАЧ</title>
+    <title>Мое Flet приложение</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
-        header {
-            background-color: #ff8000;
-            color: black;
-            padding: 1px 0;
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
             text-align: center;
         }
-        nav {
-        margin: 20px;
-        text-align: center;
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
         }
-        nav a {
-            margin: 0 10px;
+        
+        .content {
+            padding: 30px;
+            min-height: 500px;
+        }
+        
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 50px;
+            text-align: center;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .note {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .github-link {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .github-link a {
+            color: white;
             text-decoration: none;
-            color: #333;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            transition: background 0.3s;
         }
-        nav a:hover {
-            text-decoration: underline;
-        }
-        main {
-		padding: 10px;
-		text-align: center;
-        }
-        footer {
-            background-color: #ff8000;
-            color: black;
-            text-align: center;
-            padding: 0.0005px 0.5;
-            position: center;	
-            bottom: 10;
-            width: 50%;
+        
+        .github-link a:hover {
+            background: rgba(255,255,255,0.2);
         }
     </style>
 </head>
 <body>
+    <div class="header">
+        <h1>🚀 Flet в браузере</h1>
+        <p>Python код выполняется прямо у вас в браузере</p>
+    </div>
+    
+    <div class="container">
+        <div class="content">
+            <!-- Контейнер для Flet приложения -->
+            <div id="flet-app"></div>
+            
+            <!-- Экран загрузки -->
+            <div id="loading" class="loading">
+                <div class="spinner"></div>
+                <h2>Загрузка Python интерпретатора...</h2>
+                <p>Пожалуйста, подождите. В первый раз загрузка может занять 10-20 секунд.</p>
+                <div class="note">
+                    💡 Используется Pyodide — реализация Python на WebAssembly. 
+                    Весь код выполняется локально в вашем браузере.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="github-link">
+        <a href="https://github.com/ваш-username/ваш-репозиторий" target="_blank">
+            <svg height="20" viewBox="0 0 16 16" width="20" fill="currentColor">
+                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+            </svg>
+            Исходный код на GitHub
+        </a>
+    </div>
 
-    <header>
-        <h1>Пропала чурка!</h1>
-	<p></p>
-    </header>
-
-
-
-    <main>
-        <img src='https://github.com/grishjarta6/grishjarta6.github.io/blob/main/xach2.jpg?raw=true'>
-        <section id="about">
-            <h2>Особые приметы:</h2>
-            <p>Чурка. Хач бляхач. 
-            Рост 185 см. 
-            Весит как 8 ящиков пива.
-            Глаза укуренные. 
-            Ебало как после кислинки.
-	    любит в попу</p>
-            <h2>Одежда:</h2>
-            <p>В последний раз видели без одежды.</p>
-        </section>
-
-        <section id="services">
-            <h2>Услуги</h2>
-            <p>Окажите нам услугу: помогите его найти!!! Предположительно, прячется в баварских лесах. Ведет аскетичный образ жизни.</p>
-        </section>
-
-        <section id="contact">
-            <h2>Контакты</h2>
-            <p>Свяжитесь с нами по email: <a href="mailto:">mmmigration_reports.ru(добавлю позже, когда кто-нибудь меня выбесит)</a></p>
-            <p>номер телефона: +7 916 633 02 58(</p>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; 2025. Все права не защищены.</p>
-    </footer>
-
+    <!-- Подключаем Flet Pyodide -->
+    <script type="module">
+        import { launch } from 'https://cdn.jsdelivr.net/npm/flet@latest/web/pyodide/launch.js';
+        
+        // Показываем экран загрузки
+        const loadingDiv = document.getElementById('loading');
+        const fletAppDiv = document.getElementById('flet-app');
+        
+        // Функция для обновления статуса загрузки
+        function updateStatus(message) {
+            const statusElement = loadingDiv.querySelector('p');
+            if (statusElement) {
+                statusElement.textContent = message;
+            }
+        }
+        
+        updateStatus('Инициализация Pyodide...');
+        
+        // Запускаем Flet приложение
+        launch({
+            // Контейнер для приложения
+            container: fletAppDiv,
+            
+            // Функция, которая выполняется после загрузки Pyodide
+            onLoad: async (pyodide, app) => {
+                updateStatus('Загрузка Python пакетов...');
+                
+                // Загружаем необходимые пакеты
+                await pyodide.loadPackage(['flet', 'micropip']);
+                
+                updateStatus('Загрузка кода приложения...');
+                
+                // Загружаем наш Python код
+                try {
+                    const response = await fetch('app.py');
+                    const pythonCode = await response.text();
+                    
+                    updateStatus('Выполнение кода...');
+                    
+                    // Выполняем Python код
+                    await pyodide.runPythonAsync(pythonCode);
+                    
+                    // Скрываем экран загрузки
+                    loadingDiv.style.display = 'none';
+                    fletAppDiv.style.display = 'block';
+                    
+                } catch (error) {
+                    updateStatus(`Ошибка: ${error.message}`);
+                    console.error(error);
+                }
+            },
+            
+            // Обработчик ошибок
+            onError: (error) => {
+                updateStatus(`Произошла ошибка: ${error.message}`);
+                console.error(error);
+            }
+        });
+    </script>
 </body>
 </html>
